@@ -15,6 +15,7 @@ export interface UrlStats {
 }
 
  export class UrlRepository{
+    
    async create(data:createUrl):Promise<IUrl> {
     const url = new Url(data);
     return await url.save();

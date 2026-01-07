@@ -1,8 +1,7 @@
 import { serverConfig } from "../config";
-import logger from "../config/logger.config";
 import { redisClient } from "../config/redis.config";
 
-export class cacheRepository {
+export class CacheRepository {
     async getNextId():Promise<number> {
         const key = serverConfig.REDIS_COUNTER_KEY;
         if(!redisClient.isOpen){
