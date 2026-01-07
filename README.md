@@ -9,6 +9,7 @@ It generates short URLs using a counter-based approach and Base62 encoding for f
 
 * Shortens long URLs into compact, shareable links
 * Redis-based atomic counter for unique ID generation
+* Redis Caching Layer which Caches short-to-original URL mappings in Redis for ultra-fast lookups and reduced database load.
 * Base62 encoding for readable short URLs
 * MongoDB for persistent URL storage
 * tRPC for type-safe API communication
