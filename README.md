@@ -33,15 +33,61 @@ It generates short URLs using a counter-based approach and Base62 encoding for f
 ## 📁 Project Structure
 
 ```
-src/
- ├── controllers/
- ├── services/
- ├── repositories/
- ├── routers/
- │   └── tRPC/
- ├── utils/
- ├── config/
- └── server.ts
+URL-SHORTENER/
+├── src/
+│   ├── config/
+│   │   ├── db.config.ts          # MongoDB connection configuration
+│   │   ├── redis.config.ts       # Redis client configuration
+│   │   ├── logger.config.ts      # Winston / logger setup
+│   │   └── index.ts              # Centralized config exports
+│   │
+│   ├── controllers/
+│   │   ├── ping.controller.ts    # Health check controller
+│   │   └── url.controller.ts     # URL-related HTTP controllers
+│   │
+│   ├── dtos/
+│   │   └── url.dto.ts            # Data Transfer Objects for URL APIs
+│   │
+│   ├── logs/
+│   │   └── app.log               # Application logs
+│   │
+│   ├── middlewares/
+│   │   ├── correlation.middleware.ts  # Request correlation ID
+│   │   └── error.middleware.ts        # Global error handler
+│   │
+│   ├── models/
+│   │   └── url.ts                # MongoDB URL schema/model
+│   │
+│   ├── repositories/
+│   │   ├── cache.repository.ts   # Redis cache interactions
+│   │   └── url.repository.ts     # Database operations for URLs
+│   │
+│   ├── routers/
+│   │   ├── tRPC/                 # tRPC routers & context
+│   │   ├── v1/                   # API version v1 routes
+│   │   └── v2/                   # API version v2 routes (future-ready)
+│   │
+│   ├── services/
+│   │   └── url.service.ts        # Core business logic for URL shortening
+│   │
+│   ├── utils/
+│   │   ├── app.error.ts          # Custom application error classes
+│   │   ├── base62.helper.ts      # Base62 encoding logic
+│   │   └── request.helper.ts     # Request utility helpers
+│   │
+│   ├── validators/
+│   │   ├── index.ts              # Validator exports
+│   │   └── ping.validator.ts     # Validation schemas
+│   │
+│   └── server.ts                 # Application entry point
+│
+├── .env                           # Environment variables
+├── .gitignore
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+└── README.md
+
 ```
 
 ---
@@ -120,6 +166,44 @@ Example procedure call (Postman):
 
 ```
 POST http://localhost:7777/trpc/url.create
+
+Request Body
+{
+  "originalUrl": "https://www.youtube.com/"
+}
+
+Response
+{
+  "result": {
+    "data": {
+      "id": "695e100bacf164f988ba6eab",
+      "shortUrl": "1",
+      "originalUrl": "https://www.youtube.com/",
+      "fullUrl": "http://localhost:7777/2",
+      "createdAt": "2026-01-07T07:49:31.378Z",
+      "updatedAt": "2026-01-07T07:49:31.378Z"
+    }
+  }
+}
+
+```
+
+```
+GET http://localhost:7777/trpc/url.getOriginalUrl?input={"shortUrl":"1"}
+
+Query Parameter
+input={"shortUrl":"1"}
+
+Response
+{
+  "result": {
+    "data": {
+      "originalUrl": "https://www.youtube.com/",
+      "shortUrl": "1"
+    }
+  }
+}
+
 ```
 
 ---
