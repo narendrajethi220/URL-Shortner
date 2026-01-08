@@ -1,0 +1,26 @@
+version: '3.8'   # Docker Compose File Format
+
+services:
+   app:
+     build: .
+     container_name: url-shortener-app
+     env_file: 
+        - .env
+     ports:
+        - "7777:7777"
+     depends_on:
+        - redis
+     networks:
+        - app-network
+  
+   redis:
+       image: redis:alpine
+       container_name: shortener-redis
+       ports:
+         - "6379:6379"
+       networks:
+         - app-network
+
+networks:
+    app-network:
+       driver: bridge   
