@@ -1,4 +1,6 @@
 import dotenv from "dotenv";
+import logger from "./logger.config";
+
 
 type ServerConfig = {
   PORT: number;
@@ -9,15 +11,21 @@ type ServerConfig = {
 };
 
 function loadEnv() {
-  dotenv.config();
+  const env = process.env.NODE_ENV || "development";
+
+  dotenv.config({
+    path: `.env.${env}`,
+  });
+  
+  logger.info(`Loaded enveronment: ${env}`);
 }
 
 loadEnv();
 
+
 export const serverConfig: ServerConfig = {
   PORT: Number(process.env.PORT) || 3000,
   MONGO_URI:process.env.MONGO_URI || "mongodb://localhost:27017/short_url",
-  // REDIS_PORT:Number(process.env.REDIS_PORT) || 6379,
   REDIS_URL: process.env.REDIS_URL || "redis://localhost:6379",
   REDIS_COUNTER_KEY: process.env.REDIS_COUNTER_KEY || "url_shortener_counter_key",
   BASE_URL: process.env.BASE_URL || "http://localhost:3000"

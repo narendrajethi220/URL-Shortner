@@ -49,9 +49,24 @@ app.use("/api/v1", pingRouter);
 
 app.use(genericErrorHandler);
 
-app.listen(PORT, async() => {
+const server = app.listen(PORT, async() => {
   logger.info(`Server is 🚀 on http://localhost:${serverConfig.PORT}`);
   logger.info("Press Ctrl + C to stop the server");
   await initRedis();
   await connectToDB();
 });
+
+
+process.on("SIGTERM", shutdown);
+process.on("SIGINT", shutdown);
+
+async function shutdown(){
+  logger.info("Shutting down server... ");
+
+  server.close(()=>{
+    logger.info("HTTP server closed");
+  });
+
+  process.exit(0);
+
+}

@@ -16,4 +16,6 @@ pingRouter.post(
   pingHandler
 );
 
+pingRouter.get("/ping",pingHandler);
+
 export default pingRouter;

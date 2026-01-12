@@ -1,6 +1,6 @@
 import { CacheRepository } from "../repositories/cache.repository";
 import { UrlRepository } from "../repositories/url.repository";
-import { fromBase62, toBase62 } from "../utils/base62.helper";
+import { toBase62 } from "../utils/base62.helper";
 import { serverConfig } from "../config";
 import { NotFoundError } from "../utils/app.error";
 

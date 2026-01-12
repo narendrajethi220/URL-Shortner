@@ -8,7 +8,7 @@ import { InternalServerError, NotFoundError } from "../utils/app.error";
 
 const urlService = new UrlService(new UrlRepository(), new CacheRepository());
 
-export const urlController ={
+export const urlController = {
     create:publicProcedure
     .input(
         z.object({
